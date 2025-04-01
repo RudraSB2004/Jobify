@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setAuthUser } from "../redux/authSlice"; // Update path if needed
+import { setAuthUser } from "../redux/authSlice";
 import axios from "axios";
-import { useState, useEffect } from "react";
-import { Briefcase, Search, User } from "lucide-react";
+import { useState } from "react";
+import { Briefcase, Search } from "lucide-react";
 import { Input } from "./ui/input";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
@@ -77,7 +77,7 @@ const Navbar = () => {
           onChange={(e) => handleSearch(e.target.value)}
         />
         {searchResults.length > 0 && (
-          <div className="absolute top-full mt-2 w-full bg-white shadow-lg border rounded-md">
+          <div className="absolute top-full mt-2 w-full bg-white shadow-lg border rounded-md z-50">
             {searchResults.map((user) => (
               <Link
                 key={user._id}
@@ -109,14 +109,22 @@ const Navbar = () => {
         </ul>
       </div>
 
+      {/* Fixed Dropdown Menu */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Avatar className="cursor-pointer">
-            <AvatarImage src="https://github.com/shadcn.png" alt="Profile" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
+          <button>
+            <Avatar className="cursor-pointer">
+              <AvatarImage
+                src={user?.profilePicture || "https://github.com/shadcn.png"}
+                alt="Profile"
+              />
+              <AvatarFallback>
+                {user?.username?.charAt(0) || "U"}
+              </AvatarFallback>
+            </Avatar>
+          </button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-45">
+        <DropdownMenuContent className="w-45 z-50">
           {user ? (
             <>
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
